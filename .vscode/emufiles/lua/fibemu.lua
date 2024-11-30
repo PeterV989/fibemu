@@ -9,6 +9,7 @@ local emuDevices = {
     "com.fibaro.humiditySensor",
     "com.fibaro.doorSensor",
     "com.fibaro.windowSensor",
+    "com.fibaro.hvacSystemAuto",
 }
 local create = {}
 local files = json.decode(fibemu.pyhooks.listDir(fibemu.config.path.."lua/devices"))
@@ -51,7 +52,7 @@ function fibemu.profiler.log(n)
     print(fibemu.profiler.report(n or 30))
 end
 
-function fibemu.listDir(path) 
+function fibemu.listDir(path)
     return json.decode(fibemu.pyhooks.listDir(path))
 end
 

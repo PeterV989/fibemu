@@ -56,6 +56,9 @@
     <div v-else-if="type === 'com.fibaro.temperatureSensor'" class="col">
       <com-fibaro-temperatureSensor :id="id" :props="props"></com-fibaro-temperatureSensor>
     </div>
+    <div v-else-if="type === 'com.fibaro.hvacSystemAuto'" class="col">
+      <com-fibaro-hvacSystemAuto :id="id" :props="props"></com-fibaro-hvacSystemAuto>
+    </div>
   </div>
 </template>
 
@@ -66,6 +69,7 @@ import com_fibaro_multilevelSensor from "./devs/com_fibaro_multilevelSensor.vue"
 import com_fibaro_binarySensor from "./devs/com_fibaro_binarySensor.vue";
 import com_fibaro_temperatureSensor from "./devs/com_fibaro_temperatureSensor.vue";
 import com_fibaro_humiditySensor from "./devs/com_fibaro_humiditySensor.vue";
+import com_fibaro_hvacSystemAuto from "./devs/com_fibaro_hvacSystemAuto.vue";
 
 export default {
   components: {
@@ -74,7 +78,8 @@ export default {
     "com-fibaro-multilevelSensor": com_fibaro_multilevelSensor,
     "com-fibaro-binarySensor": com_fibaro_binarySensor,
     "com-fibaro-temperatureSensor": com_fibaro_temperatureSensor,
-    "com-fibaro-humiditySensor": com_fibaro_humiditySensor
+    "com-fibaro-humiditySensor": com_fibaro_humiditySensor,
+    "com-fibaro-hvacSystemAuto": com_fibaro_hvacSystemAuto
   },
   props: {
     id: Number,

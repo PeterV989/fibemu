@@ -19,35 +19,43 @@ local function base64encode(data)
 end
 
 local charMap = {
-    ['\"']="%22",
-    ['!']="%21",
-    ['#']="%23",
-    ['$']="%24",
-    ['%']="%25",
-    ['&']="%26",
-    ['\'']="%27",
-    [',']="%2C",
+    ['\"'] = "%22",
+    ['!'] = "%21",
+    ['#'] = "%23",
+    ['$'] = "%24",
+    ['%'] = "%25",
+    ['&'] = "%26",
+    ['\''] = "%27",
+    [','] = "%2C",
     -- ['<']="%3C",
     -- ['>']="%3E",
-    ['=']="%3D",
-    ['?']="%3F",
-    ['@']="%40",
-    ['\n']=""
-  }
+    ['='] = "%3D",
+    ['?'] = "%3F",
+    ['@'] = "%40",
+    ['\n'] = ""
+}
 
 local function base64decode(data)
-	local result, chars, bytes, stringFormat, stringChar, stringSub = "", {}, {["A"] = 0, ["B"] = 1, ["C"] = 2, ["D"] = 3, ["E"] = 4, ["F"] = 5, ["G"] = 6, ["H"] = 7, ["I"] = 8, ["J"] = 9, ["K"] = 10, ["L"] = 11, ["M"] = 12, ["N"] = 13, ["O"] = 14, ["P"] = 15, ["Q"] = 16, ["R"] = 17, ["S"] = 18, ["T"] = 19, ["U"] = 20, ["V"] = 21, ["W"] = 22, ["X"] = 23, ["Y"] = 24, ["Z"] = 25, ["a"] = 26, ["b"] = 27, ["c"] = 28, ["d"] = 29, ["e"] = 30, ["f"] = 31, ["g"] = 32, ["h"] = 33, ["i"] = 34, ["j"] = 35, ["k"] = 36, ["l"] = 37, ["m"] = 38, ["n"] = 39, ["o"] = 40, ["p"] = 41, ["q"] = 42, ["r"] = 43, ["s"] = 44, ["t"] = 45, ["u"] = 46, ["v"] = 47, ["w"] = 48, ["x"] = 49, ["y"] = 50, ["z"] = 51, ["0"] = 52, ["1"] = 53, ["2"] = 54, ["3"] = 55, ["4"] = 56, ["5"] = 57, ["6"] = 58, ["7"] = 59, ["8"] = 60, ["9"] = 61, ["-"] = 62, ["_"] = 63, ["="] = nil}, string.format, string.char, string.sub
-	for i = 0, #data - 1, 4 do
-		for j = 1, 4 do
-			chars[j] = bytes[stringSub(data, i + j, i + j) or "="]
-		end
-		result =
-			result ..
-			stringChar(((chars[1] << 2) % 256 | (chars[2] >> 4))) ..
-			(chars[3] and stringChar(((chars[2] << 4) % 256 | (chars[3] >> 2))) or "") ..
-			(chars[4] and stringChar(((chars[3] << 6) % 256 | chars[4])) or "")
-	end
-	return result
+    local result, chars, bytes, stringFormat, stringChar, stringSub = "", {},
+        { ["A"] = 0, ["B"] = 1, ["C"] = 2, ["D"] = 3, ["E"] = 4, ["F"] = 5, ["G"] = 6, ["H"] = 7, ["I"] = 8, ["J"] = 9,
+            ["K"] = 10, ["L"] = 11, ["M"] = 12, ["N"] = 13, ["O"] = 14, ["P"] = 15, ["Q"] = 16, ["R"] = 17, ["S"] = 18,
+            ["T"] = 19, ["U"] = 20, ["V"] = 21, ["W"] = 22, ["X"] = 23, ["Y"] = 24, ["Z"] = 25, ["a"] = 26, ["b"] = 27,
+            ["c"] = 28, ["d"] = 29, ["e"] = 30, ["f"] = 31, ["g"] = 32, ["h"] = 33, ["i"] = 34, ["j"] = 35, ["k"] = 36,
+            ["l"] = 37, ["m"] = 38, ["n"] = 39, ["o"] = 40, ["p"] = 41, ["q"] = 42, ["r"] = 43, ["s"] = 44, ["t"] = 45,
+            ["u"] = 46, ["v"] = 47, ["w"] = 48, ["x"] = 49, ["y"] = 50, ["z"] = 51, ["0"] = 52, ["1"] = 53, ["2"] = 54,
+            ["3"] = 55, ["4"] = 56, ["5"] = 57, ["6"] = 58, ["7"] = 59, ["8"] = 60, ["9"] = 61, ["-"] = 62, ["_"] = 63,
+            ["="] = nil }, string.format, string.char, string.sub
+    for i = 0, #data - 1, 4 do
+        for j = 1, 4 do
+            chars[j] = bytes[stringSub(data, i + j, i + j) or "="]
+        end
+        result =
+            result ..
+            stringChar(((chars[1] << 2) % 256 | (chars[2] >> 4))) ..
+            (chars[3] and stringChar(((chars[2] << 4) % 256 | (chars[3] >> 2))) or "") ..
+            (chars[4] and stringChar(((chars[3] << 6) % 256 | chars[4])) or "")
+    end
+    return result
 end
 
 local function getSize(b)
@@ -88,7 +96,8 @@ local function annotateUI(UI)
     for _, e in ipairs(UI) do
         if e[1] == nil then e = { e } end
         for _, e2 in ipairs(e) do
-            e2.type = e2.button and 'button' or e2.slider and 'slider' or e2.label and 'label' or e2.select and 'select' or e2.switch and 'switch'
+            e2.type = e2.button and 'button' or e2.slider and 'slider' or e2.label and 'label' or e2.select and 'select' or
+            e2.switch and 'switch'
             map[e2[e2.type]] = e2
         end
         res[#res + 1] = e
@@ -136,16 +145,18 @@ end
 
 local FDIR = ""
 local function installQA(fname, conf)
-    local dispName,id=fname,nil
+    local dispName, id = fname, nil
     conf = conf or {}
-    if QA.config.hc3fspath and QA.config.hc3fspath~="" then
+    if QA.config.hc3fspath and QA.config.hc3fspath ~= "" then
         local prefix = fname:match("^([%.%/\\]+)")
         if prefix and #prefix > 7 then
             FDIR = QA.config.hc3fspath
-            dispName = fname:gsub(prefix,"")
-            fname = FDIR.."/"..dispName
-            dispName = "hc3fs:/"..dispName
-        else QA.config.hc3fs = "" end
+            dispName = fname:gsub(prefix, "")
+            fname = FDIR .. "/" .. dispName
+            dispName = "hc3fs:/" .. dispName
+        else
+            QA.config.hc3fs = ""
+        end
     else
     end
     if not conf.silent then QA.syslog("install", "QA '%s'", dispName) end
@@ -172,14 +183,17 @@ local function installQA(fname, conf)
     end
 
     local eRoot = ""
-    code:gsub("(%-%-%%%%root=.-)[\n\r]",function(str)
+    code:gsub("(%-%-%%%%root=.-)[\n\r]", function(str)
         eRoot = str:match("root=(.+)")
         eRoot = resolveRoot(eRoot)
     end)
     local parseCode = code:gsub("(%-%-%%%%include=.-)[\n\r]", function(str)
-        local fname2 = eRoot..str:match("include=(.+)")
+        local fname2 = eRoot .. str:match("include=(.+)")
         local f2 = io.open(fname2, "r")
-        if not f2 then QA.syslogerr("install", "Include file not found - %s", fname2) return "" end
+        if not f2 then
+            QA.syslogerr("install", "Include file not found - %s", fname2)
+            return ""
+        end
         local icode = f2:read("*all")
         f2:close()
         return icode
@@ -192,8 +206,17 @@ local function installQA(fname, conf)
 
     local fileoffset = ""
     local chandler = {}
-    function chandler.root(var, val, vars) val=resolveRoot(val) fileoffset = val eRoot=val end
-    function chandler.root2(var, val, vars) val=resolveRoot(val) fileoffset = val eRoot=val end
+    function chandler.root(var, val, vars)
+        val = resolveRoot(val)
+        fileoffset = val
+        eRoot = val
+    end
+
+    function chandler.root2(var, val, vars)
+        val = resolveRoot(val)
+        fileoffset = val
+        eRoot = val
+    end
 
     function chandler.u(var, val, vars)
         vars.ui = vars.ui or {}
@@ -224,10 +247,13 @@ local function installQA(fname, conf)
     function chandler.proxy(var, val, vars) vars.proxy = tonumber(val) end
 
     function chandler.noStock(var, val, vars) vars.noStock = eval(val) end
+
     function chandler.fullLua(var, val, vars) vars.fullLua = eval(val) end
+
     function chandler.passThrough(var, val, vars)
         QA.passThrough[val] = true
     end
+
     function chandler.debug(var, val, vars) --%%debug=flag1:val1,flag2:val2
         local dbs = {}
         vars.debug._init = true
@@ -273,14 +299,14 @@ local function installQA(fname, conf)
             return
         end
         local code = {}
-        for i=1,#files-1 do
-            local f = io.open(mergePath..files[i], "r")
+        for i = 1, #files - 1 do
+            local f = io.open(mergePath .. files[i], "r")
             if not f then
                 QA.syslogerr("install", "(merge) File not found - %s", files[i])
                 return
             end
-            code[#code+1] = string.format("------- %s ----------", files[i])
-            code[#code+1] = f:read("*all")
+            code[#code + 1] = string.format("------- %s ----------", files[i])
+            code[#code + 1] = f:read("*all")
             f:close()
         end
         local f = io.open(files[#files], "w")
@@ -305,7 +331,7 @@ local function installQA(fname, conf)
 
     function chandler.file(var, val, vars) --%%file=path,name;
         local fn, qn = table.unpack(val:sub(1, -2):split(","))
-        vars.files[#vars.files + 1] = { fname = FDIR..fileoffset .. fn, name = qn, isMain = false, content = nil }
+        vars.files[#vars.files + 1] = { fname = FDIR .. fileoffset .. fn, name = qn, isMain = false, content = nil }
     end
 
     function chandler.remote(var, val, vars)
@@ -348,12 +374,12 @@ local function installQA(fname, conf)
     dev = copy(dev)
     dev.name = conf.name or vars.name or name
     dev.id = vars.id
-    for n,v in pairs(conf.qvars or {}) do vars.qvars[n]=v end
+    for n, v in pairs(conf.qvars or {}) do vars.qvars[n] = v end
     local qvars = {}
     for k, v in pairs(vars.qvars or {}) do qvars[#qvars + 1] = { name = k, value = v } end
     dev.properties.quickAppVariables = qvars
     vars.interfaces['quickApp'] = true
-    for _,i in ipairs(conf.interfaces or {}) do vars.interfaces[i] = true end
+    for _, i in ipairs(conf.interfaces or {}) do vars.interfaces[i] = true end
     local ifs = {}
     for i, _ in pairs(vars.interfaces) do ifs[#ifs + 1] = i end
     dev.interfaces = ifs
@@ -440,6 +466,37 @@ customUI = {
             { button = '__sls', text = "&Vert;",  onReleased = "stopLevelChange" }
         }
     },
+    ['com.fibaro.hvacSystemAuto'] = {
+        {
+            { label = 'lblthermostatMode', text = 'Thermostat Mode:' },
+        },
+        {
+            select = 'thermostatMode',
+            text = 'Set mode:',
+            options = {
+                { text = 'Heat', value = 'heat', type = 'option' },
+                { text = 'Cool', value = 'cool', type = 'option' },
+                { text = 'Auto', value = 'auto', type = 'option' },
+                { text = 'Off',  value = 'off',  type = 'option' },
+                { text = 'Eco',  value = 'eco',  type = 'option' }
+            },
+            values = 'auto',
+            selectedItem = 'Off',
+            onToggled = 'setMode',
+        },
+        {
+            { label = 'lblheatSP', text = 'Heat Setpoint: ' },
+            { slider = 'heatSP',   onChanged = 'heatSPChanged', min = '40', max = '80', step = '1', value = '68' },
+        },
+        {
+            { label = 'lblcoolSP', text = 'Cool Setpoint:', },
+            { slider = 'coolSP',   onChanged = 'coolSPChanged', min = '40', max = '80', step = '1', value = '72' },
+        },
+        {
+            { button = 'btnReturn', text = "Return", onReleased = 'return' },
+            { button = 'btnSet',    text = 'Set',    onReleased = 'set' },
+        },
+    },
 }
 
 --customUI['com.fibaro.binarySensor']     = customUI['com.fibaro.binarySwitch']      -- For debugging
@@ -477,7 +534,7 @@ local function createChildDevice(pID, cdev)
     -- end
     -- uiStruct, uiMap = annotateUI(uiStruct)
 
-    local UI =  ui.view2UI(dev.properties.viewLayout or {}, dev.properties.uiCallbacks or {})
+    local UI = ui.view2UI(dev.properties.viewLayout or {}, dev.properties.uiCallbacks or {})
     local uiStruct, uiMap = nil, nil
 
     if not QA.debugFlags.noStock then UI = addStockUI(dev, UI) end
@@ -527,8 +584,8 @@ local function loadFiles(id)
             QA.syslog(qa.tag, "Loading user file %s", qf.fname or qf.name)
         end
         local path = qf.fname
-        if FDIR ~="" and path:sub(1,#FDIR)==FDIR then
-           path = "hc3fs:"..path:gsub(FDIR,"")
+        if FDIR ~= "" and path:sub(1, #FDIR) == FDIR then
+            path = "hc3fs:" .. path:gsub(FDIR, "")
         else
             path = QA.pyhooks.expandPath(path)
         end
@@ -549,11 +606,11 @@ local function loadFiles(id)
         typ = typ and typ:lower() or "png"
         assert(file, "Image not found:" .. im.name, im.fname)
         local img = file:read("*all")
-        local w, h = 0,0
-        if typ == 'png' then w,h = getSize(img) end
+        local w, h = 0, 0
+        if typ == 'png' then w, h = getSize(img) end
         local data
         if typ == "svg" then
-            data = "data:image/svg+xml;utf8," .. img:gsub(".",charMap)
+            data = "data:image/svg+xml;utf8," .. img:gsub(".", charMap)
         else
             data = "data:image/png;base64," .. base64encode(img)
         end
@@ -657,7 +714,7 @@ local function importFQA(file)
 end
 
 local function file2fqa(fname)
-    local qa = installQA(fname, {silent=true})
+    local qa = installQA(fname, { silent = true })
     assert(qa, "File not found:" .. fname)
     local dev = qa.dev
     local files = qa.files

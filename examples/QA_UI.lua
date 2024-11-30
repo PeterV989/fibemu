@@ -17,7 +17,7 @@
 --%%u={{button='b1',text='newOptions',onReleased='newOptions'},{button='b2',text='setManual',onReleased='setManual'},{button='b3',text='setAuto',onReleased='setAuto'}}
 --%%u={switch='s1',text='switch1',onReleased='sb'}
 
-local fibemu = fibaro.fibemu 
+local fibemu = fibaro.fibemu
 
 function QuickApp:modeSelector(event)
     print(event.values[1])
@@ -45,6 +45,7 @@ function QuickApp:onInit()
     local dev = fibemu.create.multilevelSensor{name="myMultilevelSensor"}
     fibemu.create.temperatureSensor()
     fibemu.create.humiditySensor()
+    fibemu.create.hvacSystemAuto()
 
     setTimeout(function()
         fibaro.call(dev.id, "updateProperty", "batteryLevel", 50)
